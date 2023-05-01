@@ -13,9 +13,11 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Bundles", "Inventory", "Orders"];
+const pages = ["Inventory", "Bundles", "Orders"];
 
-function NavBar() {
+function NavBar(props) {
+  const setAdmin = props.onLogin;
+  const admin = props.admin;
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -48,7 +50,18 @@ function NavBar() {
               </Button>
             ))}
           </Box>
-          <Button color="inherit">Admin Login</Button>
+          {admin ? (
+            <span>
+              Welcome Admin,
+              <Button color="inherit" onClick={setAdmin}>
+                Logout
+              </Button>
+            </span>
+          ) : (
+            <Button color="inherit" onClick={setAdmin}>
+              Admin Login
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
