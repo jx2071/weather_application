@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import Items from "./Items";
 import NavBar from "./NavBar";
+import Selection from "./Selection.js";
 
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -42,6 +43,7 @@ function App() {
           <Grid container xs={4}>
             <Grid xs={12}>
               <Item>Selections</Item>
+              <Selection />
             </Grid>
           </Grid>
         </Grid>
