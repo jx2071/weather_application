@@ -28,6 +28,7 @@ function NavBar(props) {
               letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
+              fontSize: "2rem",
             }}
           >
             Inventory Management

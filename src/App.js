@@ -14,6 +14,20 @@ import Grid from "@mui/material/Unstable_Grid2";
 
 function App() {
   const [admin, setAdmin] = useState(false);
+  const [selected, setSelected] = useState(
+    window.sessionStorage.getItem("selected_items")
+      ? JSON.parse(window.sessionStorage.getItem("selected_items"))
+      : [[], [], [], [], [], [], [], [], []]
+  );
+
+  const handleDelete = (id) => {
+    selected[id - 1][3] = selected[id - 1][3] - 1;
+    if (selected[id - 1][3] === 0) {
+      selected[id - 1] = [];
+    }
+    window.sessionStorage.setItem("selected_items", JSON.stringify(selected));
+    setSelected(selected);
+  };
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -36,14 +50,23 @@ function App() {
         <Grid container spacing={2}>
           <Grid container xs={8}>
             <Grid xs={12}>
-              <Item>Inventory</Item>
-              <Items />
+              <Item style={{ fontSize: "2rem" }}>Inventory</Item>
+              <Items
+                onAdd={(data) => {
+                  setSelected(data);
+                }}
+              />
             </Grid>
           </Grid>
           <Grid container xs={4}>
             <Grid xs={12}>
-              <Item>Selections</Item>
-              <Selection />
+              <Item style={{ fontSize: "2rem" }}>Selections</Item>
+              <Selection
+                data={selected}
+                onDelete={(id) => {
+                  handleDelete(id);
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>

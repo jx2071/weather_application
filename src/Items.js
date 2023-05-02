@@ -103,7 +103,9 @@ const rows = [
   },
 ];
 
-function Items() {
+function Items(props) {
+  const { onAdd } = props;
+
   const handleAdd = (id) => {
     console.log("Add item " + id);
     let selected_items = window.sessionStorage.getItem("selected_items")
@@ -125,6 +127,7 @@ function Items() {
       "selected_items",
       JSON.stringify(selected_items)
     );
+    onAdd(selected_items);
   };
 
   const formatItems = (temp) => {
