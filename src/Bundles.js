@@ -31,10 +31,23 @@ function Bundles() {
       )
       .then((res) => {
         let temp = formatData(res.data);
-        console.log(res.data);
         setState({ rows: temp, status: "resolved" });
       });
   }, []);
+
+  const handleDeleteBundle = (bundleId) => {
+    console.log("Delete bundle " + bundleId);
+    axios
+      .post(
+        "https://aqttbmen16.execute-api.us-east-1.amazonaws.com/dev/inventory_app_bundle_delete?bundleId=" +
+          bundleId
+      )
+      .then((res) => {
+        let temp = formatData(res.data);
+        setState({ rows: temp, status: "resolved" });
+        alert("Bundle deleted successfully!");
+      });
+  };
 
   function formatData(inputList) {
     const outputObj = {};
@@ -58,9 +71,9 @@ function Bundles() {
       outputObj[bundleName].bundle_price = bundlePrice;
     });
 
-    console.log(outputObj);
     return outputObj;
   }
+
   return (
     <Grid container spacing={2}>
       <Grid xs={12}>
@@ -69,7 +82,20 @@ function Bundles() {
           {Object.keys(rows).map((bundleName) => {
             return (
               <>
-                <h4>{bundleName}</h4>
+                <div>
+                  <h4>
+                    {bundleName}
+                    <Button
+                      style={{ margin: "5px" }}
+                      variant="primary"
+                      onClick={() => {
+                        handleDeleteBundle(rows[bundleName].id);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </h4>
+                </div>
                 <Table
                   className="text-wrap"
                   striped
