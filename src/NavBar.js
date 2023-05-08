@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 
-const pages = ["Inventory", "Bundles", "Orders"];
+const pages = ["Inventory", "Bundles", "Orders", "Subscribe"];
 
 function NavBar(props) {
   const setAdmin = props.onLogin;

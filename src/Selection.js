@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 
@@ -9,6 +10,33 @@ function Selection(props) {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
+  const handleCreate = () => {
+    let bundle = [];
+    for (let i = 0; i < data.length; i++) {
+      let item = [data[i][0], data[i][3]];
+      if (item[0]) {
+        bundle.push(item);
+      }
+    }
+    let bundleName = prompt("Enter bundle name:");
+    let bundlePrice = total;
+    console.log(bundleName, bundlePrice, bundle);
+
+    axios
+      .post(
+        "https://aqttbmen16.execute-api.us-east-1.amazonaws.com/dev/inventory_app_bundle_create",
+        {
+          bundle_name: bundleName,
+          bundle_price: bundlePrice,
+          bundle: bundle,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        alert("Bundle created successfully!");
+      });
+  };
+
   useEffect(() => {
     let total = 0;
     for (let i = 0; i < data.length; i++) {
@@ -17,7 +45,7 @@ function Selection(props) {
         total += item[2] * item[3];
       }
     }
-    setTotal((Math.round(total * 100) / 100).toFixed(2));
+    setTotal(total.toFixed(2));
   });
 
   return (
@@ -82,6 +110,7 @@ function Selection(props) {
           </tr>
         </tbody>
       </Table>
+      {total > 0 ? <Button onClick={handleCreate}>Create Bundle</Button> : null}
     </>
   );
 }
